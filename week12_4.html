@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // ===========================================================================
+        // Event Handler Zone
+        // ===========================================================================
+        function handlerMouseOver(){
+            this.style.color = "blue";
+        }
+
+        function DrawBorder(){
+            this.style.border = "gray solid 1px";
+        }
+
+        function handlerMouseOut(){
+            this.style.color = "black";
+        }
+
+        function deleteBorder(){
+            this.style.border = "none";
+        }
+
+        
+
+        function btnDeleteClickHandler(){
+            // 1, h1 객체를 가져온다.
+            let h1 = document.querySelector("h1");
+
+            // 2, h1 객체의 mouseover, mouseout 이벤트 핸들러들 중에서 테두리 관련 핸들러를 제거한다.
+            h1.removeEventListener("mouseover", DrawBorder);
+            h1.removeEventListener("mouseout", deleteBorder);
+
+            // 3, 테두리 설정/삭제 핸들러를 연결하는 버튼을 활성화 한다
+            document.getElementById("btnOn").disabled = false;
+            this.disabled = true;
+        }
+
+        function btnInsertClickHandler(){
+            // 1, h1 객체를 가져온다.
+            let h1 = document.querySelector("h1");
+
+            // 2, h1 객체의 mouseover, mouseout 이벤트 핸들러들 중에서 테두리 관련 핸들러를 제거한다.
+            h1.addEventListener("mouseover", DrawBorder);
+            h1.addEventListener("mouseout", deleteBorder);
+
+             // 3, 테두리 설정/삭제 핸들러를 연결하는 버튼을 활성화 한다
+            document.getElementById("btnOff").disabled = false;
+            this.disabled = true;
+        }
+        // ===========================================================================
+        window.onload = function(){
+            // ===========================================================================
+            // 표준 이벤트 모델 연습
+            // ===========================================================================
+            // 1, button 객체 가져오기
+            let btnDelete = document.getElementById("btnOff");
+            // 2, click event handler 등록하기
+            btnDelete.addEventListener("click", btnDeleteClickHandler);
+
+            // ===========================================================================
+            // 한 줄로 쓰기
+            document.getElementById("btnOn").addEventListener("click", btnInsertClickHandler);
+
+            // ===========================================================================
+            // 1, h1객체 가져오기
+            let h1 = document.querySelector("h1");
+
+            // 2, onmouseover, onmouseout 이벤트 핸들러 각각 추가하기
+            h1.addEventListener("mouseover", handlerMouseOver);
+            h1.addEventListener("mouseover", DrawBorder);
+
+            h1.addEventListener("mouseout",handlerMouseOut );
+            h1.addEventListener("mouseout",deleteBorder );
+
+        }
+    </script>
+</head>
+<body>
+    <h1>고전 이벤트 모델 연습</h1>
+    <hr>
+    <ol>
+        <li>프론트엔드프로그래밍II</li>
+        <li>데이터베이스</li>
+        <li>자바프로그래밍</li>
+    </ol>
+    <hr>
+    <button id="btnOn" disabled>h1 테두리 이벤트 핸들러 설정하기</button>
+    <hr>
+    <button id="btnOff">h1 테두리 이벤트 핸들러 제거하기</button>
+</body>
+</html>

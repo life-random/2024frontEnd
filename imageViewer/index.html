@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Viewer</title>
+    <style>
+        div {
+            text-align: center;
+        }
+
+        #main {
+            width: 200px;
+            align-items: center;
+        }
+        .icon {
+            width: 50px;
+            margin: 5px;
+        }
+    </style>
+    <script>
+        let defaltImg = "./image/heart.png";
+        let defaltText = "heart";
+
+        function changeImg() {
+            document.querySelector("#main").src = this.src; // 이미지 변경
+        }
+
+        function changeText() {
+            document.querySelector("#text").innerHTML = this.alt; // 텍스트 업데이트
+        }
+
+        function returnImg(){
+            document.querySelector("#main").src = defaltImg;
+            document.querySelector("#text").innerHTML = defaltText;
+        }
+
+        function defaltImgSet(){
+            defaltImg = this.src;
+            defaltText = this.alt;
+        }
+
+        function setHendler(){
+            // 각 선택자를 요소로 매핑
+            let sel = document.getElementsByClassName("icon");
+
+            // 이벤트 핸들러 적용
+            for (let img of sel) {
+                img.addEventListener("mouseover", changeImg);
+                img.addEventListener("mouseover", changeText);
+                img.addEventListener("mouseout", returnImg);
+                img.addEventListener("click", defaltImgSet);
+            }
+        }
+
+        window.onload = function() {
+            setHendler();
+        }
+    </script>
+</head>
+<body>
+    <h1>Image viewer</h1>
+    <hr>
+    <div>
+        <img src="./image/heart.png" alt="heart" id="main">
+        <p id="text">_</p>
+    </div>
+    <hr>
+    <div>
+        <img src="./image/heart.png" alt="heart" class="icon" id="heart">
+        <img src="./image/good.png" alt="good" class="icon" id="good">
+        <img src="./image/bookmark.png" alt="bookmark" class="icon" id="bookmark">
+        <img src="./image/download.png" alt="download" class="icon" id="download">
+        <img src="./image/config.png" alt="config" class="icon" id="config">
+    </div>
+    <hr>
+</body>
+</html>

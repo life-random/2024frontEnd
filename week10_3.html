@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .value {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+<script>
+    let obj = screen;
+    let no = 1;
+
+    // [key]: value...
+    // [key]: value...
+    for(let key in obj){
+        document.write(`(${no}) [<b>${key}</b>]: <span class="value">${obj[key]}</span><br>`);
+        no++;
+    }
+</script>
+</html>

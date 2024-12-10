@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Event</title>
+    <style>
+        div {
+            border: 1px solid black;
+            padding: 15px;
+            width: 70%;
+        }
+        .divid {
+            border: 1px solid gray;
+            background-color: yellow;
+        }
+    </style>
+    <script>
+        // moverover와 mouseout 이벤트는 하위 객체에 전파된다.
+        function mouseOver(event){
+            // 배경색을 yellow로 설정하기
+            this.style.backgroundColor = "yellow";
+            // 이벤트 로그 기록하기
+            document.getElementById("eventLog").innerHTML += `mouse overed <span class="divid">${this.id}</span><br>`;
+            // event 전파(propagation) 중단시키기
+            event.stopPropagation();
+        }
+
+        function mouseOut(event){
+            // 배경색을 white로 설정하기
+            this.style.backgroundColor = "white";
+            // 이벤트 로그 기록하기
+            document.getElementById("eventLog").innerHTML += `mouse outed <span class="divid">${this.id}</span><br>`;
+            // event 전파(propagation) 중단시키기
+            event.stopPropagation();
+        }
+
+        function MouseEnter(){
+            this.style.borderColor = "blue";
+            document.getElementById("eventLog").innerHTML += `mouse Entered <span class="divid">${this.id}</span><br>`;
+        }
+
+        function Mouseleave(){
+            this.style.borderColor = "black";
+            document.getElementById("eventLog").innerHTML += `mouse Left <span class="divid">${this.id}</span><br>`;
+        }
+
+        function attachDivEventHandler(){
+            let divList = document.getElementsByTagName("div");
+            for(let div of divList){
+                div.addEventListener("mouseenter", MouseEnter);
+                div.addEventListener("mouseleave", Mouseleave);
+                div.addEventListener("mouseover", mouseOver);
+                div.addEventListener("mouseout", mouseOut);
+            }
+        }
+        //====================================================================
+        function gid(id){
+            return document.getElementById(id);
+        }
+        //====================================================================
+        window.onload = function(){
+            attachDivEventHandler();
+            // p 태그의 dbclick 이벤트 핸들러를 등록한다
+            gid("eventLog").addEventListener("dblclick", function(){this.innerHTML = "";});
+        }
+    </script>
+</head>
+<body>
+    <h1>Mouse Event: MouseOver vs MouseEnter</h1>
+    <div id="divA">div A
+        <div id="divB">div B
+            <div id="divC">div C 
+            </div>
+        </div>
+    </div>
+    <p id="eventLog"></p>
+</body>
+</html>
