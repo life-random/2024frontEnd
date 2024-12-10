@@ -13,10 +13,17 @@
     margin: 10px;
 }
 
-.menu {
-    border: 1px solid blue;
-    padding: 10px;
-    border: 5px;
+.overBox{
     background-color: aquamarine;
+}
+
+.menu {
+    border: 1px solid black;
+    padding: 10px;
+    background-color: coral;
     margin: 10px;
+}
+
+.draggingMenu {
+    border-color: red;
 }
