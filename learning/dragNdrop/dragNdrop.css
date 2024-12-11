@@ -19,9 +19,21 @@
 
 .menu {
     border: 1px solid black;
+    border-radius: 5px;
     padding: 10px;
     background-color: coral;
     margin: 10px;
+}
+
+.overMenu{
+    background-color: crimson;
+}
+
+/* id가 boxCart인 태그의 자식 노드로 들어간 .menu인 경우 */
+#boxCart .menu{
+    height: 60px;
+    background-color: aquamarine;
+    border-color: yellow;
 }
 
 .draggingMenu {
