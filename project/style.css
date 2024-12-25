@@ -7,10 +7,6 @@ body {
     background-color: lightgray;
 }
 
-h2{
-    font-size: 20px;
-}
-
 header {
     width: 100%;
     text-align: center;
@@ -24,13 +20,13 @@ header {
     align-items: flex-start;
     background-color: white;
     height: 70%;
-    width: 80%;
+    width: 1600px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
-
+/* 메뉴판 설정 */
 #boxMenu {
     display: flex;
     flex-wrap: wrap;
@@ -60,6 +56,17 @@ header {
     box-sizing: border-box;
 }
 
+/* 장바구니 설정 */
+#cartItems {
+    width: 460px;
+    height: 100%;
+    overflow: auto;
+    text-align: center;
+    display: flex;               /* Flexbox 활성화 */
+    flex-direction: column;      /* 세로 방향으로 정렬 */
+    align-items: center;  
+}
+
 /* 장바구니 안에 메뉴 */
 #cartItems .menu{
     margin: 10px;
@@ -69,8 +76,8 @@ header {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    height: 100px;
-    width: 100%;
+    height: 250px;
+    width: 200px;
     box-sizing: border-box;
 }
 
@@ -92,6 +99,7 @@ header {
     height: 93%;
     box-sizing: border-box;
 }
+
 
 #totalPrice {
     margin-top: 20px;
@@ -118,10 +126,4 @@ header {
     margin-top: auto; /* 상단 요소들이 차지한 공간을 제외하고 하단으로 위치 */
     border-top: 1px solid #ddd;
     padding: 10px;
-}
-
-#cartItems {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
 }
