@@ -8,6 +8,169 @@ let totalPrice = 0;         // 현재 메뉴판 가격
 // ========================================================
 // function zone
 // --------------------------------------------------------
+// 초기화 함수
+function resetToInitialState() {
+
+    // 메뉴의 초기 상태로 복원
+    $("cartItems .menu").each(function () {
+        $(this).attr("quantity", "1"); // 수량 초기화
+        $(this).find(".quantity-display").remove(); // 수량 표시 제거
+        $(this).find("img").show(); // 이미지 다시 보이게
+        $(this).find("button").hide(); // 버튼 다시 보이게
+        $("#boxMenu").append(this); // 메뉴를 메뉴 박스로 이동
+    });
+
+    // 총 금액 초기화
+    $("#totalPriceDisplay").text("Total: 0원");
+    totalPrice = 0; // 총 금액 변수 초기화
+
+    let upBtn = document.getElementsByClassName("upbut");
+    let downBtn = document.getElementsByClassName("downbut");
+
+    for(let btn of upBtn)
+        $(btn).attr("display")=none;
+
+    for(let btn of downbut)
+        $(btn).attr("display")=none;
+    
+    console.log("초기화 완료");
+}
+
+// 영수증 팝업 출력
+function showReceipt() {
+    let receiptContent = `<h2>영수증</h2><ul>`;
+    let totalPrice = 0; // 총 금액 초기화
+
+    // cartItems 안의 메뉴 정보를 탐색
+    $("#cartItems .menu").each(function () {
+        const name = $(this).attr("name"); // 메뉴 이름
+        const price = parseInt($(this).attr("price")); // 메뉴 가격
+        const quantity = parseInt($(this).attr("quantity")); // 메뉴 수량
+        const itemTotal = price * quantity; // 항목별 총 가격
+
+        if (!isNaN(price) && !isNaN(quantity)) {
+            receiptContent += `<li>${name} (₩${price.toLocaleString()} x ${quantity}) - ₩${itemTotal.toLocaleString()}</li>`;
+            totalPrice += itemTotal; // 총 금액 업데이트
+        }
+    });
+
+    receiptContent += `</ul><p><strong>Total: ₩${totalPrice.toLocaleString()}</strong></p>`;
+
+    // 영수증을 팝업 창에 표시
+    const receiptWindow = window.open("", "Receipt", "width=400,height=600");
+    receiptWindow.document.write(`
+        <html>
+        <head>
+            <title>영수증</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.5; }
+                h2 { text-align: center; }
+                ul { list-style: none; padding: 0; }
+                li { margin: 10px 0; }
+                p { font-size: 1.2em; text-align: center; }
+            </style>
+        </head>
+        <body>
+            ${receiptContent}
+        </body>
+        </html>
+    `);
+    receiptWindow.document.close();
+}
+
+// 영수증 내용을 생성하는 함수
+function generateReceiptText() {
+    let receiptContent = "==== 영수증 ====\n";
+    let totalPrice = 0; // 총 금액 초기화
+
+    // cartItems 안의 메뉴 정보를 탐색
+    $("#cartItems .menu").each(function () {
+        const name = $(this).attr("name"); // 메뉴 이름
+        const price = parseInt($(this).attr("price")); // 메뉴 가격
+        const quantity = parseInt($(this).attr("quantity")); // 메뉴 수량
+        const itemTotal = price * quantity; // 항목별 총 가격
+
+        if (!isNaN(price) && !isNaN(quantity)) {
+            receiptContent += `${name} (₩${price.toLocaleString()} x ${quantity}) - ₩${itemTotal.toLocaleString()}\n`;
+            totalPrice += itemTotal; // 총 금액 업데이트
+        }
+    });
+
+    receiptContent += `\n총 금액: ₩${totalPrice.toLocaleString()}\n====================`;
+    
+    return receiptContent;
+}
+
+// 파일에 영수증 내용을 저장하거나 추가
+async function saveReceiptToFile() {
+    try {
+        // 파일 핸들 가져오기
+        const options = {
+            types: [
+                {
+                    description: "Text Files",
+                    accept: {
+                        "text/plain": [".txt"]
+                    }
+                }
+            ]
+        };
+
+        // 파일 핸들러 요청
+        const fileHandle = await window.showSaveFilePicker(options);
+
+        // 기존 내용 읽기
+        let existingContent = "";
+        try {
+            const file = await fileHandle.getFile();
+            existingContent = await file.text();
+        } catch (e) {
+            console.log("파일을 새로 만듭니다.");
+        }
+
+        // 새로운 영수증 내용 생성
+        const newContent = generateReceiptText();
+
+        // 기존 내용과 새로운 내용을 합치기
+        const updatedContent = existingContent
+            ? existingContent + "\n\n" + newContent
+            : newContent;
+
+        // 파일에 쓰기
+        const writableStream = await fileHandle.createWritable();
+        await writableStream.write(updatedContent);
+        await writableStream.close();
+
+        console.log("영수증이 성공적으로 저장되었습니다!");
+    } catch (err) {
+        console.error("파일 저장에 실패했습니다:", err);
+    }
+}
+
+// 기존 generateReceiptText 함수 (재사용)
+function generateReceiptText() {
+    let receiptText = "=== 영수증 ===\n";
+    let totalPrice = 0;
+
+    $("#cartItems .menu").each(function () {
+        const name = $(this).attr("name");
+        const price = parseInt($(this).attr("price"));
+        const quantity = parseInt($(this).attr("quantity"));
+
+        if (!isNaN(price) && !isNaN(quantity)) {
+            const itemTotal = price * quantity;
+            receiptText += `${name} - ${price.toLocaleString()}원 x ${quantity}개 = ${itemTotal.toLocaleString()}원\n`;
+            totalPrice += itemTotal;
+        }
+    });
+
+    receiptText += `\n총합: ${totalPrice.toLocaleString()}원\n`;
+    receiptText += "===================";
+    return receiptText;
+}
+
+
+// 총합 값 초기화
 function updateTotalPrice() {
     let totalPrice = 0; // 초기화
 
@@ -163,4 +326,11 @@ $(document).ready(function() {
     for (let down of downBut) // downBut에 대한 반복문 수정
         down.addEventListener("click", minusQuantity);
     
+
+    // 구매 버튼 클릭 시 영수증 생성
+    $("#calculateButton").on("click", function () {
+        saveReceiptToFile()
+        showReceipt()
+        resetToInitialState()
+    });
 });
