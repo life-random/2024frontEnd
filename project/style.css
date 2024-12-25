@@ -1,5 +1,21 @@
+body{
+    margin: 0;
+    text-align: center;
+    background-color: lightgray;
+}
+/* 최상단 헤더 부분 */
+header{
+    background-color: white;
+    /* color: white; */
+    border-bottom: solid 3px blue;
+    box-sizing: border-box
+}
+#boxMenu{
+    
+}
 .container{
-    background-color: ivory;
+    background-color: white;
+    width: 980px;
     padding: 20px;
     display: flex;
     flex-direction: row;
