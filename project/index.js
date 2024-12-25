@@ -8,6 +8,35 @@ let totalPrice = 0;         // 현재 메뉴판 가격
 // ========================================================
 // function zone
 // --------------------------------------------------------
+function updateTotalPrice() {
+    let totalPrice = 0; // 초기화
+
+    // 모든 cartItems 안의 menu 요소를 탐색
+    $("#cartItems .menu").each(function () {
+        const price = parseInt($(this).attr("price")); // 메뉴의 가격
+        const quantity = parseInt($(this).attr("quantity")); // 메뉴의 수량
+
+        if (!isNaN(price) && !isNaN(quantity)) {
+            totalPrice += price * quantity; // 총 가격 계산
+        }
+    });
+
+    // Total Price를 화면에 업데이트
+    $("#totalPrice").text(`Total: ${totalPrice.toLocaleString()}원`);
+}
+// // 속성 보이기
+// function hideAttr(object){
+//     $(this).attr("quantity") = 1;
+//     $(this).children("btn").show();
+//     $(this).children(".quantity-display").show();
+// }
+
+// // 속성 숨기기
+// function showAttr(object){
+//     $(this).children("btn").hide();
+//     $(this).children(".quantity-display").hide();
+// }
+
 // 지금 추가해야할 항목
 // up, down 버튼 클릭시, 메뉴의 quantity의 값 조정하는 것 추가
 // 구매 버튼 클릭시
@@ -32,6 +61,26 @@ function onDragEndMenu(event) {
     }
 }
 
+function addQuantity(event){
+    let currentQuantity = parseInt($(this).parent("div").attr("quantity")) || 0;
+    $(this).parent("div").attr("quantity", currentQuantity + 1);
+
+    // 추력된 갯수 출력
+    $(this).siblings(".quantity-display").html(`${currentQuantity + 1}개`);
+    updateTotalPrice();
+}
+
+function minusQuantity(event){
+    let currentQuantity = parseInt($(this).parent("div").attr("quantity")) || 0;
+    if(currentQuantity <= 1)
+        return console.log(`${this}의 값을 더 이상 내릴 수 없습니다`);
+    $(this).parent("div").attr("quantity", currentQuantity - 1);
+
+    // 추력된 갯수 출력
+    $(this).siblings(".quantity-display").html(`${currentQuantity - 1}개`);
+    updateTotalPrice();
+}
+
 // --------------------------------------------------------
 // 메뉴가 들어간 박스에서 드래그하는 동작
 function onDragOverMenu(event) {
@@ -50,6 +99,7 @@ function onDragLeaveMenu(event) {
 function onDropMenu(event) {
     event.stopPropagation();
     this.parentNode.insertBefore(draggingMenu, this); // 메뉴 아이템을 다른 메뉴 안으로 이동
+    updateTotalPrice();
 }
 
 // ========================================================
@@ -76,6 +126,7 @@ function onDropBox(event) {
         this.appendChild(draggingMenu);
         draggingMenu.classList.remove("overMenu");
     }
+    updateTotalPrice();
 }
 
 // ========================================================
@@ -99,4 +150,17 @@ $(document).ready(function() {
         box.addEventListener("dragleave", onDragLeaveBox);
         box.addEventListener("drop", onDropBox);
     }
+
+    // 증감 버튼 이벤트
+    let upBut = document.getElementsByClassName("upBut");
+
+    for (let up of upBut) 
+        up.addEventListener("click", addQuantity);
+    
+
+    let downBut = document.getElementsByClassName("downBut");
+    
+    for (let down of downBut) // downBut에 대한 반복문 수정
+        down.addEventListener("click", minusQuantity);
+    
 });

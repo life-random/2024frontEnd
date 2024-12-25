@@ -58,13 +58,15 @@ header {
 
 /* 장바구니 설정 */
 #cartItems {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-y: auto;
     width: 460px;
     height: 100%;
     overflow: auto;
-    text-align: center;
-    display: flex;               /* Flexbox 활성화 */
-    flex-direction: column;      /* 세로 방향으로 정렬 */
-    align-items: center;  
+    
 }
 
 /* 장바구니 안에 메뉴 */
@@ -80,6 +82,7 @@ header {
     width: 200px;
     box-sizing: border-box;
 }
+
 
 .menu img {
     width: 100px;
@@ -126,4 +129,10 @@ header {
     margin-top: auto; /* 상단 요소들이 차지한 공간을 제외하고 하단으로 위치 */
     border-top: 1px solid #ddd;
     padding: 10px;
+}
+
+#boxMenu .menu .upBut,
+#boxMenu .menu .downBut,
+#boxMenu .menu .quantity-display{
+    display: none;
 }
