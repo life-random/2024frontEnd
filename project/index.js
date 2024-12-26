@@ -10,29 +10,16 @@ let totalPrice = 0;         // 현재 메뉴판 가격
 // --------------------------------------------------------
 // 초기화 함수
 function resetToInitialState() {
-
     // 메뉴의 초기 상태로 복원
-    $("cartItems .menu").each(function () {
-        $(this).attr("quantity", "1"); // 수량 초기화
-        $(this).find(".quantity-display").remove(); // 수량 표시 제거
-        $(this).find("img").show(); // 이미지 다시 보이게
-        $(this).find("button").hide(); // 버튼 다시 보이게
-        $("#boxMenu").append(this); // 메뉴를 메뉴 박스로 이동
+    $("#cartItems .menu").each(function () {
+        document.getElementById("boxMenu").appendChild(this); // DOM 요소 이동
     });
 
     // 총 금액 초기화
     $("#totalPriceDisplay").text("Total: 0원");
     totalPrice = 0; // 총 금액 변수 초기화
 
-    let upBtn = document.getElementsByClassName("upbut");
-    let downBtn = document.getElementsByClassName("downbut");
-
-    for(let btn of upBtn)
-        $(btn).attr("display")=none;
-
-    for(let btn of downbut)
-        $(btn).attr("display")=none;
-    
+    updateTotalPrice(); // 총합 다시 계산 (필요할 경우)
     console.log("초기화 완료");
 }
 
